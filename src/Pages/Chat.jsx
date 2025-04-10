@@ -54,7 +54,7 @@ export const Chat = (props) => {
               Welcome to {room.toUpperCase()}
             </h2>
             {messages.map((message) => (
-              <div key={message.id} className="mt-[10px]">
+              <div key={message.id} className="mt-[10px] text-[17px]">
                 <span className="text-[17px] pl-[10px] font-bold pr-[10px]">
                   {message.user}
                 </span>
@@ -87,11 +87,3 @@ export const Chat = (props) => {
     </>
   );
 };
-
-// echo "# FireBase" >> README.md
-// git init
-// git add README.md
-// git commit -m "first commit"
-// git branch -M main
-// git remote add origin https://github.com/krishnamistry-17/FireBase.git
-// git push -u origin main

@@ -152,7 +152,7 @@ const Signin = () => {
 
               <button
                 className="w-[180px] py-[8px] px-[16px]
-                 ml-[70px] mt-[20px] text-white
+                 md:ml-[70px] mt-[20px] text-white
              bg-blue-500 rounded-md mb-[20px]
               hover:bg-blue-600 focus:outline-none  "
                 type="submit"
@@ -161,14 +161,12 @@ const Signin = () => {
               </button>
             </form>
 
-            <div className="ml-[65px] mb-[20px] rounded-lg">
+            <div className="md:ml-[65px] mb-[20px] rounded-lg">
               <img src={image} alt="gogglebtn" onClick={signInWithGoogle} />
             </div>
           </div>
         </div>
       </div>
-
-      
     </>
   );
 };
