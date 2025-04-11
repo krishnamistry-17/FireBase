@@ -11,7 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 import image from "../assets/images/googlebtn.png";
 import Cookies from "universal-cookie";
+
 const cookies = new Cookies();
+
 const Signin = () => {
   const { setIsSignedIn } = useAuth();
 

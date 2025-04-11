@@ -2,18 +2,24 @@ import React from "react";
 import { useAuth } from "./Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
-const cookie = new Cookies();
+
+const cookies = new Cookies();
+
 const NavBar = () => {
   const navigate = useNavigate();
-  const { isSignedIn, setIsSignedIn } = useAuth(cookie.get("new-token"));
+  const { isSignedIn, setIsSignedIn } = useAuth();
+
   const handleLogOut = (e) => {
     e.preventDefault();
+    cookies.remove("new-token");
     setIsSignedIn(false);
     navigate("/");
   };
   return (
-    <div className="w-full bg-gray-500 h-[40px] 
-    mt-[0px] text-white p-[10px]">
+    <div
+      className="w-full bg-gray-500 h-[40px] 
+    mt-[0px] text-white p-[10px]"
+    >
       <div className="flex justify-end">
         {!isSignedIn ? (
           <>
