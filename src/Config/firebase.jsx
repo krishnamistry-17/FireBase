@@ -28,4 +28,4 @@ export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 
 //collection refrence
-export const colRef = collection(db, "Users");
+export const colRef = collection(db, "users");

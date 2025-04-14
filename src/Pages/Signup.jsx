@@ -1,15 +1,17 @@
 import React from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../Config/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db } from "../Config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "./Context/AuthContext";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
   const { setIsSignedIn } = useAuth();
 
   const navigate = useNavigate();
+  const colRef = collection(db, "newusers");
 
   const formik = useFormik({
     initialValues: {
@@ -33,11 +35,28 @@ const SignUp = () => {
     }),
     onSubmit: async (values) => {
       try {
-        await createUserWithEmailAndPassword(
+        const userCredential = await createUserWithEmailAndPassword(
           auth,
           values.email,
           values.password
         );
+
+        const user = userCredential.user;
+
+        await updateProfile(user, {
+          displayName: values.name,
+        });
+
+        await setDoc(doc(db, "newusers", user.uid), {
+          uid: user.uid,
+          name: values.name,
+          email: values.email,
+          createdAt: serverTimestamp(),
+          photoURL: user.photoURL || "",
+        });
+
+        await setDoc(doc(db, "chatUsers", user.uid), {});
+
         alert("Signup successful");
         formik.resetForm();
         setIsSignedIn(true);
