@@ -1,12 +1,17 @@
 import React from "react";
 import avatr from "../assets/images/avtar.png";
-const Message = () => {
+import { chatAuth } from "./Context/ChatContext";
+import { useAuth } from "./Context/AuthContext";
+
+const Message = ({ message }) => {
+  const { data } = chatAuth();
+  const { currentUser } = useAuth();
+  console.log(message);
   return (
     <>
       {/*if message owner then flex-row-reverse */}
-
-      <div className="flex gap-[20px] flex-row-reverse ">
-        {/*message */}
+      {/*message */}
+      <div className="flex gap-[20px] flex-row-reverse">
         {/*message info */}
         <div>
           <div
