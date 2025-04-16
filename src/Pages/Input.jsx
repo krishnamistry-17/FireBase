@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { FaImages } from "react-icons/fa";
 import { FaFile } from "react-icons/fa";
-import { chatAuth } from "./Context/ChatContext";
+import { useChatAuth } from "./Context/ChatContext";
 import { useAuth } from "./Context/AuthContext";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../Config/firebase";
 import { v4 as uuid } from "uuid";
+
 const Input = () => {
   const [text, setText] = useState("");
 
-  const { data } = chatAuth();
+  const { data } = useChatAuth();
   const { currentUser } = useAuth();
 
   const handleSend = async () => {
@@ -21,6 +22,7 @@ const Input = () => {
         date: Timestamp.now(),
       }),
     });
+    console.log("senderId :", senderId);
   };
 
   return (
@@ -37,6 +39,7 @@ const Input = () => {
         <button
           className="w-[80px] h-[35px]  bg-blue-500 mr-[5px]"
           onClick={handleSend}
+          type="submit"
         >
           Send
         </button>

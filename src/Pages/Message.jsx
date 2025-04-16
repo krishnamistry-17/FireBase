@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import avatr from "../assets/images/avtar.png";
-import { chatAuth } from "./Context/ChatContext";
+import { useChatAuth } from "./Context/ChatContext";
 import { useAuth } from "./Context/AuthContext";
 
 const Message = ({ message }) => {
-  const { data } = chatAuth();
+  const { data } = useChatAuth();
   const { currentUser } = useAuth();
+
   console.log(message);
+  const ref = useRef();
+  useEffect(() => {
+    ref.current?.scrollView();
+  }, [message]);
   return (
     <>
       {/*if message owner then flex-row-reverse */}

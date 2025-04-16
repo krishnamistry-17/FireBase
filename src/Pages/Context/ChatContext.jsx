@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { useAuth } from "./AuthContext";
 
-const ChatContext = createContext();
+export const ChatAuthContext = createContext();
+
+//created custome hhok
+export const useChatAuth = () => useContext(ChatAuthContext);
 
 export const ChatContextProvider = ({ children }) => {
   const { currentUser } = useAuth();
@@ -12,27 +15,32 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const chatReducer = (state, action) => {
-    console.log("update user in state", action.payload.user);
+    console.log("action :", action);
     switch (action.type) {
       case "CHANGE_USER":
+        const { currentUser, payload: selectedUser } = action;
+        console.log("currentUser :", currentUser);
+        console.log("selectedUser---- :", selectedUser);
+        console.log("selected user", selectedUser.name);
+
         return {
-          user: action.payload,
+          user: selectedUser,
           chatId:
-            currentUser.uid > action.payload.uid
-              ? currentUser.uid + action.payload.uid
-              : action.payload.uid + currentUser.uid,
+            currentUser.uid > selectedUser.uid
+              ? currentUser.uid + selectedUser.uid
+              : selectedUser.uid + currentUser.uid,
+          name: selectedUser[1]?.userInfo.name,
         };
       default:
         return state;
     }
   };
+
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ data: state, dispatch }}>
+    <ChatAuthContext.Provider value={{ data: state, dispatch }}>
       {children}
-    </ChatContext.Provider>
+    </ChatAuthContext.Provider>
   );
 };
-//created custome hhok
-export const chatAuth = () => useContext(ChatContext);

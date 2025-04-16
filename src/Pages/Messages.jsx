@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Message from "./Message";
-import { chatAuth } from "./Context/ChatContext";
+import { useChatAuth } from "./Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../Config/firebase";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
 
-  const { data } = chatAuth();
+  const { data } = useChatAuth();
 
   useEffect(() => {
     if (!data.chatId) return;
@@ -19,7 +19,6 @@ const Messages = () => {
         setMessages([]);
       }
     });
-
     return () => unSub();
   }, [data.chatId]);
 
