@@ -3,6 +3,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   onSnapshot,
   query,
   serverTimestamp,
@@ -22,11 +23,13 @@ const Search = () => {
 
   const [userNotFound, setUserNotFound] = useState(false);
   const [users, setUsers] = useState([]);
-  console.log("users :", users);
   const [name, setName] = useState("");
-  console.log("name :", name);
   const [err, setError] = useState(false);
+
+  const [suggestions, setSuggestions] = useState([]);
+  console.log("suggestions :", suggestions);
   const [chatHistory, setChatHistory] = useState([]);
+  console.log("chatHistory :", chatHistory);
 
   const handleSearch = async () => {
     if (!name.trim()) return;
@@ -41,6 +44,9 @@ const Search = () => {
         console.log(" matchedUsers :", matchedUsers);
         console.log("avialaible user :", doc.data().name);
       });
+      {
+        /*for auto */
+      }
 
       if (matchedUsers.length === 0) {
         setUserNotFound(true);
@@ -101,7 +107,7 @@ const Search = () => {
         currentUser: currentUser,
       });
 
-      setUsers([]);
+      // setUsers([]);
       setName("");
     } catch (error) {
       console.log("error for chat user", error);
@@ -117,10 +123,25 @@ const Search = () => {
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
-          const sortedChats = Object.entries(data).sort(
-            (a, b) => b[1].date?.seconds - a[1].date?.seconds
-          );
+          console.log("data :", data);
+          const sortedChats = Object.entries(data).sort((a, b) => {
+            const dateA = a[1]?.date;
+            const dateB = b[1]?.date;
 
+            if (!dateA && !dateB) return 0;
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+
+            // Compare seconds
+            if (dateB.seconds !== dateA.seconds) {
+              return dateB.seconds - dateA.seconds;
+            }
+
+            // If seconds are equal, compare nanoseconds
+            return dateB.nanoseconds - dateA.nanoseconds;
+          });
+
+          console.log("sortedChats :", sortedChats);
           setChatHistory(sortedChats);
         }
       }
@@ -129,23 +150,76 @@ const Search = () => {
     return () => unsub();
   }, [currentUser?.uid]);
 
+  const handleInputChange = async (e) => {
+    const input = e.target.value;
+    setName(input);
+
+    if (!input.trim()) {
+      setSuggestions([]);
+      setUsers([]);
+      return;
+    }
+    try {
+      const q = query(
+        collection(db, "newusers"),
+        where("name", ">=", input),
+        limit(5)
+      );
+      const querySnapshot = await getDocs(q);
+
+      const results = [];
+      querySnapshot.forEach((doc) => results.push(doc.data()));
+      setSuggestions(results);
+    } catch (err) {
+      console.error("Suggestion fetch failed", err);
+    }
+  };
+
   return (
     <div className="ml-[20px] mt-[10px]">
       <input
         type="text"
-        className="w-[191px] h-[41px] border rounded-sm shadow-sm p-[5px]"
-        onChange={(e) => setName(e.target.value)}
+        className="w-[178px] h-[41px] border rounded-sm shadow-sm p-[5px]"
+        onChange={handleInputChange}
         value={name}
         onKeyDown={handleKey}
         placeholder="Search name.."
       />
+
+      {suggestions.length > 0 && (
+        <div className="mt-[8px]  ">
+          <p className="text-black text-[15px] mb-[5px]">Search Results:</p>
+          {suggestions.map((user, index) => {
+            return (
+              <div>
+                <div
+                  key={index}
+                  onClick={() => {
+                    handleSelect(user);
+                    setSuggestions([]);
+                    setName(user.name);
+                  }}
+                  className="p-[8px] flex items-center gap-[8px] cursor-pointer"
+                >
+                  <img
+                    src={avtar}
+                    alt="avatar"
+                    className="w-[35px] h-[35px] rounded-full"
+                  />
+                  <span>{user.name}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {userNotFound && (
         <p className="text-red-500 text-[14px]">User not found</p>
       )}
 
       {/* Search Results */}
-      {users.length > 0 && (
+      {/* {users.length > 0 && (
         <div className="mt-3">
           <p className="text-black text-[15px] mb-[5px]">Search Results:</p>
           {users.map((user, index) => {
@@ -165,27 +239,45 @@ const Search = () => {
             );
           })}
         </div>
-      )}
+      )} */}
 
       {/* Previous Chats */}
-      {chatHistory && (
+      {chatHistory?.length > 0 && (
         <div className="mt-5">
           <p className="text-gray-700 text-sm mb-1">Recent Chats:</p>
 
-          {chatHistory.map(([chatId, chat]) => (
-            <div
-              key={chatId}
-              onClick={() => handleSelect(chat.userInfo)}
-              className="flex items-center gap-[8px] p-[8px] cursor-pointer rounded"
-            >
-              <img
-                src={avtar}
-                alt="avatar"
-                className="w-[35px] h-[35px] rounded-full"
-              />
-              <span className="text-[17px]">{chat.userInfo?.name}</span>
-            </div>
-          ))}
+          {chatHistory.map(([chatId, chat]) => {
+            return (
+              <div
+                key={chatId}
+                onClick={() => handleSelect(chat.userInfo)}
+                className="flex items-center gap-[8px] p-[8px] cursor-pointer rounded"
+              >
+                {console.log("chat------- :", chat)}
+                <img
+                  src={avtar}
+                  alt="avatar"
+                  className="w-[40px] h-[40px] rounded-full shadow-md"
+                />
+                <div className="max-w-[70%]">
+                  <span className="text-[18px] font-bold block">
+                    {chat.userInfo?.name}
+                  </span>
+
+                  <p className="text-[14px] text-black ">
+                    {chat.lastMessage
+                      ? `${
+                          chat.lastMessage.senderId === currentUser.uid
+                            ? "Youuuu: "
+                            : ""
+                        }
+                        ${chat.lastMessage?.text}`
+                      : "No messages yet"}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

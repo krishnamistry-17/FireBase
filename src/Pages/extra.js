@@ -101,7 +101,7 @@
 //     setText("");
 //     setImg(null);
 //   };
-//   return (
+// //   return (
 //     <div className="input">
 //       <input
 //         type="text"
@@ -144,7 +144,8 @@
 //   return (
 //     <div
 //       ref={ref}
-//       className={`message ${message.senderId === currentUser.uid && "owner"}`}
+//       className={`message ${message.senderId
+//  === currentUser.uid && "owner"}`}
 //     >
 //       <div className="messageInfo">
 //         <img

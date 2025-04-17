@@ -57,7 +57,8 @@ export const Chat = ({ room }) => {
   }, [messages]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 px-4">
+    <div className="flex justify-center
+     items-center h-screen bg-gray-100 px-4">
       <div className="w-full max-w-md h-[90vh] bg-white rounded-lg shadow-lg flex flex-col">
         {/ Header /}
         <div className="bg-blue-600 text-white text-center py-3 text-xl font-bold rounded-t-lg">

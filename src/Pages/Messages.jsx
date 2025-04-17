@@ -6,7 +6,6 @@ import { db } from "../Config/firebase";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
-
   const { data } = useChatAuth();
 
   useEffect(() => {
@@ -14,7 +13,7 @@ const Messages = () => {
 
     const unSub = onSnapshot(doc(db, "chats", data.chatId), (docSnap) => {
       if (docSnap.exists()) {
-        setMessages(docSnap.data()?.messages || []);
+        setMessages(docSnap.data()?.messages);
       } else {
         setMessages([]);
       }
@@ -22,11 +21,9 @@ const Messages = () => {
     return () => unSub();
   }, [data.chatId]);
 
-  // console.log("messages", messages);
-
   return (
     <>
-      <div className="p-[10px] h-[calc(100%_-_111px)] overflow-y-scroll">
+      <div className="p-[10px] h-[calc(100%_-_111px)] overflow-y-auto">
         {messages.map((m) => (
           <Message message={m} key={m.id} />
         ))}
