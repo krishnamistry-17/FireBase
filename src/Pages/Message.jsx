@@ -20,15 +20,33 @@ const Message = ({ message }) => {
     ? new Date(message.date.seconds * 1000)
     : null;
 
+  const now = new Date();
+  const isToday = messageDate?.toDateString() === now.toDateString();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+  const isYesterday = messageDate?.toDateString() === yesterday.toDateString();
+
+  let formattedDate;
+  if (isToday) {
+    formattedDate = "Today";
+  } else if (isYesterday) {
+    formattedDate = "Yesterday";
+  } else {
+    formattedDate = messageDate?.toLocaleDateString();
+  }
+
   const formattedTime = messageDate?.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  const displayDateTime = `${formattedDate} at ${formattedTime}`;
+
   // const timeAgo = formatDistanceToNow(messageDate, { addSuffix: true });
   return (
     <div
       ref={ref}
-      className={`message flex gap-[20px] ${
+      className={`flex gap-[20px] ${
         isCurrentUser ? "flex-row-reverse" : "sender"
       }`}
     >
@@ -36,11 +54,12 @@ const Message = ({ message }) => {
         <div className="rounded-full w-[50px] h-[50px] mt-[5px]">
           <img src={avatr} alt="img" />
         </div>
-        {formattedTime && (
+
+        {displayDateTime && (
           <>
             {/* <span className="text-[12px]">{timeAgo}</span> */}
             <span className="text-[12px] text-gray-500 block mt-[4px] text-center">
-              {formattedTime}
+              {displayDateTime}
             </span>
           </>
         )}

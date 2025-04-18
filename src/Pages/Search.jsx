@@ -22,12 +22,12 @@ const Search = () => {
   const { dispatch } = useChatAuth();
 
   const [userNotFound, setUserNotFound] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [err, setError] = useState(false);
 
   const [suggestions, setSuggestions] = useState([]);
-  console.log("suggestions :", suggestions);
+  // console.log("suggestions :", suggestions);
   const [chatHistory, setChatHistory] = useState([]);
   console.log("chatHistory :", chatHistory);
 
@@ -41,8 +41,8 @@ const Search = () => {
       const matchedUsers = [];
       querySnapshot.forEach((doc) => {
         matchedUsers.push(doc.data());
-        console.log(" matchedUsers :", matchedUsers);
-        console.log("avialaible user :", doc.data().name);
+        // console.log(" matchedUsers :", matchedUsers);
+        // console.log("avialaible user :", doc.data().name);
       });
       {
         /*for auto */
@@ -73,6 +73,10 @@ const Search = () => {
         ? currentUser.uid + selectedUser.uid
         : selectedUser.uid + currentUser.uid;
 
+    console.log("selectedUser.uid >>>>> :", selectedUser.uid);
+    console.log("currentUser.uid >>>>:", currentUser.uid);
+    console.log("combinedId>>>> :", combinedId);
+
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
 
@@ -90,15 +94,19 @@ const Search = () => {
         });
 
         // Update selected user's chat list
-        await updateDoc(doc(db, "chatUsers", selectedUser.uid), {
-          [combinedId + ".userInfo"]: {
-            uid: currentUser.uid,
-            name: currentUser.displayName,
-            photoURL: currentUser.photoURL,
-          },
+        await updateDoc(
+          doc(db, "chatUsers", selectedUser.uid),
+          {
+            [combinedId + ".userInfo"]: {
+              uid: currentUser.uid,
+              name: currentUser.displayName,
+              photoURL: currentUser.photoURL,
+            },
 
-          [combinedId + ".date"]: serverTimestamp(),
-        });
+            [combinedId + ".date"]: serverTimestamp(),
+          },
+          { merge: true }
+        );
       }
 
       dispatch({
@@ -123,7 +131,7 @@ const Search = () => {
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
-          console.log("data :", data);
+          console.log("data---------> :", data);
           const sortedChats = Object.entries(data).sort((a, b) => {
             const dateA = a[1]?.date;
             const dateB = b[1]?.date;

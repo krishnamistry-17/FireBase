@@ -34,28 +34,26 @@ const Input = () => {
             date: Timestamp.now(),
           }),
         });
+
         {
           /*current user*/
         }
-        console.log("lastMessage>>>>>>>>>>>> :");
-
         await updateDoc(doc(db, "chatUsers", currentUser.uid), {
           [data.chatId + ".lastMessage"]: {
             text,
           },
           [data.chatId + ".date"]: serverTimestamp(),
+          s,
         });
         {
           /*user */
         }
-        await updateDoc(doc(db, "chatUsers", data?.user?.id), {
+        await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
           [data.chatId + ".lastMessage"]: {
             text,
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });
-
-        console.log("Message sent by>>>>>>>>:", currentUser.uid);
       }
     } catch (err) {
       console.error("Error sending message:", err);
