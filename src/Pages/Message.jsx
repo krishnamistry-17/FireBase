@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import avatr from "../assets/images/avtar.png";
 import { useAuth } from "./Context/AuthContext";
+import { db } from "../Config/firebase";
+
 // import { formatDistanceToNow } from "date-fns";
 const Message = ({ message }) => {
   console.log("message :", message);
@@ -46,7 +48,7 @@ const Message = ({ message }) => {
   return (
     <div
       ref={ref}
-      className={`flex gap-[20px] ${
+      className={`message flex gap-[20px] ${
         isCurrentUser ? "flex-row-reverse" : "sender"
       }`}
     >

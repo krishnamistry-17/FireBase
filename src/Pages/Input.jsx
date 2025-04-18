@@ -43,7 +43,6 @@ const Input = () => {
             text,
           },
           [data.chatId + ".date"]: serverTimestamp(),
-          s,
         });
         {
           /*user */

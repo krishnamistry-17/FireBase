@@ -17,7 +17,7 @@ import { useAuth } from "./Context/AuthContext";
 import avtar from "../assets/images/avtar.png";
 import { useChatAuth } from "./Context/ChatContext";
 
-const Search = () => {
+const Search = ({ message }) => {
   const { currentUser } = useAuth();
   const { dispatch } = useChatAuth();
 
@@ -73,9 +73,9 @@ const Search = () => {
         ? currentUser.uid + selectedUser.uid
         : selectedUser.uid + currentUser.uid;
 
-    console.log("selectedUser.uid >>>>> :", selectedUser.uid);
-    console.log("currentUser.uid >>>>:", currentUser.uid);
-    console.log("combinedId>>>> :", combinedId);
+    // console.log("selectedUser.uid >>>>> :", selectedUser.uid);
+    // console.log("currentUser.uid >>>>:", currentUser.uid);
+    // console.log("combinedId>>>> :", combinedId);
 
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
@@ -183,6 +183,16 @@ const Search = () => {
     }
   };
 
+  const messageDate = message?.date?.seconds
+    ? new Date(message.date.seconds * 1000)
+    : null;
+
+  const formattedTime = messageDate?.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  console.log("formattedTime >>>:", formattedTime);
+
   return (
     <div className="ml-[20px] mt-[10px]">
       <input
@@ -282,6 +292,13 @@ const Search = () => {
                         ${chat.lastMessage?.text}`
                       : "No messages yet"}
                   </p>
+                  {formattedTime && (
+                    <div>
+                      <span className="text-[12px] text-gray-500 block mt-[4px]">
+                        {formattedTime}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             );
