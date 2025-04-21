@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MdVideoCall } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
@@ -6,11 +6,22 @@ import Messages from "./Messages";
 import Input from "./Input";
 import avtar from "../assets/images/avtar.png";
 import { useChatAuth } from "./Context/ChatContext";
+import { useAuth } from "./Context/AuthContext";
 
 const Chat = () => {
+  const [messages, setMessages] = useState([]);
   const { data } = useChatAuth();
   console.log("data :", data);
   const { selectedUser } = useChatAuth();
+  const { currentUser } = useAuth();
+
+  const messageData = (message) => {
+    console.log("message :", message);
+  };
+
+  const handleTime = () => {
+    const date = new Date();
+  };
   return (
     <div className="flex-2 ">
       <div

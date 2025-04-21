@@ -379,7 +379,9 @@
 
 // <!-- Home Section -->
 // <div class="home bg-[#a7bcff] h-screen flex items-center justify-center">
-//   <div class="container border border-white rounded-lg w-[65%] h-[80%] flex overflow-hidden sm:w-[90%]">
+//   <div class="container border 
+// border-white rounded-lg 
+// w-[65%] h-[80%] flex overflow-hidden sm:w-[90%]">
 //     <!-- Sidebar -->
 //     <div class="sidebar flex-1 bg-[#3e3c61] relative">
 //       <div class="navbar flex items-center bg-[#2f2d52] h-12 px-4 justify-between text-[#ddddf7]">

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import avatr from "../assets/images/avtar.png";
 import { useAuth } from "./Context/AuthContext";
-import { db } from "../Config/firebase";
+import { formatDistanceToNow } from "date-fns";
 
-// import { formatDistanceToNow } from "date-fns";
 const Message = ({ message }) => {
-  console.log("message :", message);
+  console.log("message>>>>> :", message);
   const { currentUser } = useAuth();
 
   const ref = useRef();
@@ -15,8 +14,6 @@ const Message = ({ message }) => {
   }, [message]);
 
   const isCurrentUser = message.senderId === currentUser.uid;
-
-  console.log("isCurrentUser :", isCurrentUser);
 
   const messageDate = message?.date?.seconds
     ? new Date(message.date.seconds * 1000)
@@ -43,8 +40,8 @@ const Message = ({ message }) => {
   });
 
   const displayDateTime = `${formattedDate} at ${formattedTime}`;
+  const timeAgo = formatDistanceToNow(messageDate, { addSuffix: true });
 
-  // const timeAgo = formatDistanceToNow(messageDate, { addSuffix: true });
   return (
     <div
       ref={ref}
@@ -53,13 +50,18 @@ const Message = ({ message }) => {
       }`}
     >
       <div>
-        <div className="rounded-full w-[50px] h-[50px] mt-[5px]">
+        <div
+          className="rounded-full 
+        md:w-[42px] md:h-[42px]
+        sm:w-[30px] sm:h-[30px]
+        w-[30px] h-[30px]
+        mt-[5px]"
+        >
           <img src={avatr} alt="img" />
         </div>
-
+        {/* {timeAgo} */}
         {displayDateTime && (
           <>
-            {/* <span className="text-[12px]">{timeAgo}</span> */}
             <span className="text-[12px] text-gray-500 block mt-[4px] text-center">
               {displayDateTime}
             </span>
@@ -67,7 +69,7 @@ const Message = ({ message }) => {
         )}
       </div>
 
-      <div className="flex max-w-[80%] gap-[10px] flex-col">
+      <div className="flex max-w-[80%]  h-[25px] gap-[0px] flex-col">
         <p
           className="bg-white p-[10px] 
             rounded-r-[10px]

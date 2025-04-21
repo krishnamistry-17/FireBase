@@ -386,7 +386,7 @@ const Signin = () => {
 };
 
 export default Signin;
-[10/04, 10:22 pm] Krishna Mistry: {/ Cart Icon with Quantity Badge /}
+ {/ Cart Icon with Quantity Badge /}
           <div className="relative">
             <img
               src={Cart}

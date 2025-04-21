@@ -8,7 +8,10 @@ const MainChat = () => {
       <div className="flex justify-center items-center mt-[50px] ">
         <div
           className="border border-black rounded-sm 
-        w-[65%] h-[500px] flex bg-blue-300 overflow-hidden"
+        xl:w-[65%] md:w-[90%] flex bg-blue-300 overflow-hidden
+          w-full lg:w-[65%] h-screen mx-[10px]
+         flex-col md:flex-row
+        "
         >
           <SideBar />
           <Chat />

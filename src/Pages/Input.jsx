@@ -6,6 +6,7 @@ import { useAuth } from "./Context/AuthContext";
 import {
   arrayUnion,
   doc,
+  increment,
   serverTimestamp,
   Timestamp,
   updateDoc,
@@ -34,13 +35,13 @@ const Input = () => {
             date: Timestamp.now(),
           }),
         });
-
         {
           /*current user*/
         }
         await updateDoc(doc(db, "chatUsers", currentUser.uid), {
           [data.chatId + ".lastMessage"]: {
             text,
+            senderId: currentUser.uid,
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });
@@ -50,20 +51,23 @@ const Input = () => {
         await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
           [data.chatId + ".lastMessage"]: {
             text,
+            senderId: currentUser.uid,
           },
           [data.chatId + ".date"]: serverTimestamp(),
+          [data.chatId + ".unread"]: increment(1),
         });
+        setText("");
+        setImage("");
       }
     } catch (err) {
       console.error("Error sending message:", err);
     }
-    setText("");
-    setImage("");
   };
 
   const handleKey = (e) => {
     e.code === "Enter" && handleSend();
   };
+
   return (
     <div className="bg-white h-[50px] mt-[10px] flex items-center px-2">
       <input
