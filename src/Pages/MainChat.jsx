@@ -9,7 +9,7 @@ const MainChat = () => {
         <div
           className="border border-black rounded-sm 
         xl:w-[65%] md:w-[90%] flex bg-blue-300 overflow-hidden
-          w-full lg:w-[65%] h-screen mx-[10px]
+          w-full lg:w-[65%] h-screen mx-[10px] overflow-y-auto
          flex-col md:flex-row
         "
         >

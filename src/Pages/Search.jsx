@@ -64,6 +64,7 @@ const Search = () => {
 
   // Select user and set up chat
   const handleSelect = async (selectedUser) => {
+    // console.log("  handleSelect ~ selectedUser:", selectedUser);
     const combinedId =
       currentUser.uid > selectedUser.uid
         ? currentUser.uid + selectedUser.uid
@@ -82,6 +83,7 @@ const Search = () => {
             photoURL: selectedUser.photoURL,
           },
           [combinedId + ".date"]: serverTimestamp(),
+          [combinedId + ".lastseen"]: serverTimestamp(),
           [combinedId + ".unread"]: 0,
         });
 
@@ -92,6 +94,7 @@ const Search = () => {
             photoURL: currentUser.photoURL,
           },
           [combinedId + ".date"]: serverTimestamp(),
+          [combinedId + ".lastseen"]: serverTimestamp(),
           [combinedId + ".unread"]: 0,
         });
 
@@ -233,7 +236,6 @@ const Search = () => {
           <p className="text-gray-700 text-[14px] mb-[4px]">Recent Chats:</p>
 
           {chatHistory.map(([chatId, chat]) => {
-            console.log("chat?????? :", chat);
             const messageDate = chat?.date?.seconds
               ? new Date(chat.date.seconds * 1000)
               : null;
@@ -264,7 +266,7 @@ const Search = () => {
 
                 <div className="flex justify-between w-full items-start">
                   <div className="max-w-[70%]">
-                    <span className="text-[18px] font-bold block">
+                    <span className="text-[16px] font-bold block">
                       {chat.userInfo?.name}
                     </span>
 

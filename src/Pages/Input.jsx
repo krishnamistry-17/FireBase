@@ -16,7 +16,6 @@ import { v4 as uuid } from "uuid";
 
 const Input = () => {
   const [text, setText] = useState("");
-  console.log("text input:", text);
   const [img, setImage] = useState("");
 
   const { data } = useChatAuth();
@@ -55,28 +54,29 @@ const Input = () => {
             senderId: currentUser.uid,
           },
           [data.chatId + ".date"]: serverTimestamp(),
-          [data.chatId + ".unread"]: increment(1),
         });
         {
           /*last seen */
         }
+        await updateDoc(doc(db, "chatUsers", currentUser.uid), {
+          [data.chatId + ".lastMessage"]: {
+            text,
+            senderId: currentUser.uid,
+          },
+          [data.chatId + ".date"]: serverTimestamp(),
+          [data.chatId + ".userInfo.lastseen"]: serverTimestamp(),
+        });
+
         await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
-          [data.chatId + ".lastseen"]: {
+          [data.chatId + ".lastMessage"]: {
             text,
             senderId: currentUser.uid,
           },
           [data.chatId + ".date"]: serverTimestamp(),
-          [data.chatId + ".lastseen"]: serverTimestamp(),
+          [data.chatId + ".unread"]: increment(1),
+          [data.chatId + ".userInfo.lastseen"]: serverTimestamp(),
         });
-        await updateDoc(doc(db, "chatUsers", currentUser?.uid), {
-          [data.chatId + ".lastseen"]: {
-            text,
-            displayName,
-            senderId: currentUser.uid,
-          },
-          [data.chatId + ".date"]: serverTimestamp(),
-          [data.chatId + ".lastseen"]: serverTimestamp(),
-        });
+
         setText("");
         setImage("");
       }
@@ -92,14 +92,14 @@ const Input = () => {
   return (
     <div className="bg-white h-[50px] mt-[10px] flex items-center px-2">
       <input
-        className="flex-1 h-[35px] p-[10px] border rounded"
+        className="md:flex-1 w-[50%] h-[35px] p-[10px] border rounded md:text-[16px] text-[12px]"
         type="text"
         placeholder="Type something..."
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKey}
         value={text}
       />
-      <div className="flex items-center space-x-4 ml-2">
+      <div className="flex items-center md:space-x-4 space-x-2 ml-2">
         <FaImages />
         <FaFile />
         <button

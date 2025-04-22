@@ -6,6 +6,7 @@ import SignUp from "./Pages/Signup";
 import { AuthProvider } from "./Pages/Context/AuthContext";
 import { ChatContextProvider } from "./Pages/Context/ChatContext";
 import { SelectContextProvider } from "./Pages/Context/SelectContext";
+import Setting from "./Pages/Setting";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/signin" element={<Signin />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/setting" element={<Setting />} />
             </Routes>
           </SelectContextProvider>
         </ChatContextProvider>

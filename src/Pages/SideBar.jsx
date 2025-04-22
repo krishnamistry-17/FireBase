@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "./Header";
 import Search from "./Search";
-// import Chats from "./Chats";
 
 const SideBar = () => {
   return (
@@ -10,7 +9,6 @@ const SideBar = () => {
       <div>
         <Search />
       </div>
-      {/* <Chats /> */}
     </div>
   );
 };

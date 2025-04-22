@@ -42,7 +42,6 @@ const Messages = () => {
       if (!grouped[key]) {
         grouped[key] = [];
       }
-
       grouped[key].push(msg);
     });
 
@@ -52,7 +51,7 @@ const Messages = () => {
   const groupedMessages = groupMessagesByDate(messages);
 
   return (
-    <div className="p-[10px] h-[calc(100%_-_111px)] overflow-y-auto">
+    <div className="p-[10px] h-[calc(100%_-_111px)] overflow-y-scroll">
       {Object.entries(groupedMessages).map(([label, group]) => (
         <div key={label}>
           <div className="text-center text-gray-600 text-sm my-3">
