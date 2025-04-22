@@ -6,22 +6,20 @@ import Messages from "./Messages";
 import Input from "./Input";
 import avtar from "../assets/images/avtar.png";
 import { useChatAuth } from "./Context/ChatContext";
-import { useAuth } from "./Context/AuthContext";
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
   const { data } = useChatAuth();
-  console.log("data :", data);
+  console.log("data >>>:", data);
   const { selectedUser } = useChatAuth();
-  const { currentUser } = useAuth();
+  console.log("selectedUser>>> :", selectedUser);
 
-  const messageData = (message) => {
-    console.log("message :", message);
-  };
+  const lastSeen = data?.lastSeen
+    ? new Date(data.lastSeen.seconds * 1000).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "Not available";
 
-  const handleTime = () => {
-    const date = new Date();
-  };
   return (
     <div className="flex-2 ">
       <div
@@ -33,14 +31,17 @@ const Chat = () => {
             <p>No user Selected</p>
           </div>
         ) : (
-          <div className="flex">
-            <img
-              src={avtar}
-              alt="img"
-              className="w-[29px] h-[29px] rounded-full bg-blue-600"
-            ></img>
-            <p className="pl-[5px] text-[17px]">{data.user?.name}</p>
-          </div>
+          <>
+            <div className="flex">
+              <img
+                src={avtar}
+                alt="img"
+                className="w-[29px] h-[29px] rounded-full bg-blue-600"
+              ></img>
+              <p className="pl-[5px] text-[17px]">{data.user?.name}</p>
+            </div>
+            <div className="block">Last seen at:{lastSeen}</div>
+          </>
         )}
         <div className="flex p-[10px] space-x-3">
           <MdVideoCall className="w-[20px] h-[20px]" />

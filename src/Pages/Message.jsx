@@ -39,8 +39,8 @@ const Message = ({ message }) => {
     minute: "2-digit",
   });
 
-  const displayDateTime = `${formattedDate} at ${formattedTime}`;
-  const timeAgo = formatDistanceToNow(messageDate, { addSuffix: true });
+  // const displayDateTime = `${formattedDate} at ${formattedTime}`;
+  // const timeAgo = formatDistanceToNow(messageDate, { addSuffix: true });
 
   return (
     <div
@@ -60,10 +60,10 @@ const Message = ({ message }) => {
           <img src={avatr} alt="img" />
         </div>
         {/* {timeAgo} */}
-        {displayDateTime && (
+        {formattedTime && (
           <>
             <span className="text-[12px] text-gray-500 block mt-[4px] text-center">
-              {displayDateTime}
+              {formattedTime}
             </span>
           </>
         )}

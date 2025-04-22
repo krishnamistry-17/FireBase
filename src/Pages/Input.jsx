@@ -45,6 +45,7 @@ const Input = () => {
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });
+
         {
           /*user */
         }
@@ -55,6 +56,26 @@ const Input = () => {
           },
           [data.chatId + ".date"]: serverTimestamp(),
           [data.chatId + ".unread"]: increment(1),
+        });
+        {
+          /*last seen */
+        }
+        await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
+          [data.chatId + ".lastseen"]: {
+            text,
+            senderId: currentUser.uid,
+          },
+          [data.chatId + ".date"]: serverTimestamp(),
+          [data.chatId + ".lastseen"]: serverTimestamp(),
+        });
+        await updateDoc(doc(db, "chatUsers", currentUser?.uid), {
+          [data.chatId + ".lastseen"]: {
+            text,
+            displayName,
+            senderId: currentUser.uid,
+          },
+          [data.chatId + ".date"]: serverTimestamp(),
+          [data.chatId + ".lastseen"]: serverTimestamp(),
         });
         setText("");
         setImage("");

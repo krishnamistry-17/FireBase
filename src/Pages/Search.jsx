@@ -20,7 +20,6 @@ import { useChatAuth } from "./Context/ChatContext";
 const Search = () => {
   const { currentUser } = useAuth();
   const { dispatch } = useChatAuth();
-
   const [userNotFound, setUserNotFound] = useState(false);
   const [, setUsers] = useState([]);
   const [name, setName] = useState("");
@@ -40,8 +39,6 @@ const Search = () => {
       const matchedUsers = [];
       querySnapshot.forEach((doc) => {
         matchedUsers.push(doc.data());
-        // console.log(" matchedUsers :", matchedUsers);
-        // console.log("avialaible user :", doc.data().name);
       });
       {
         /*for auto */
@@ -96,6 +93,15 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
           [combinedId + ".unread"]: 0,
+        });
+
+        //last seen update for both user
+        await updateDoc(doc(db, "chatUsers", currentUser?.uid), {
+          [`${combinedId}.lastseen`]: serverTimestamp(),
+        });
+
+        await updateDoc(doc(db, "chatUsers", selectedUser?.uid), {
+          [`${combinedId}.lastseen`]: serverTimestamp(),
         });
       }
 
@@ -227,6 +233,7 @@ const Search = () => {
           <p className="text-gray-700 text-[14px] mb-[4px]">Recent Chats:</p>
 
           {chatHistory.map(([chatId, chat]) => {
+            console.log("chat?????? :", chat);
             const messageDate = chat?.date?.seconds
               ? new Date(chat.date.seconds * 1000)
               : null;
@@ -235,6 +242,13 @@ const Search = () => {
               hour: "2-digit",
               minute: "2-digit",
             });
+
+            const lastSeen = chat?.lastSeen
+              ? new Date(chat.lastSeen.seconds * 1000).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "Not available";
 
             return (
               <div
