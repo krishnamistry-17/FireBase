@@ -4,7 +4,7 @@ export const SelectContext = createContext();
 
 export const SelectContextProvider = ({ children }) => {
   const [selectedUserName, setSelectedUserName] = useState("");
-  console.log("selectedUserName :", selectedUserName);
+
   const INITIAL_STATE = {
     chatId: "null",
     user: {},

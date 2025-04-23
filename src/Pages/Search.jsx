@@ -16,19 +16,19 @@ import { db } from "../Config/firebase";
 import { useAuth } from "./Context/AuthContext";
 import avtar from "../assets/images/avtar.png";
 import { useChatAuth } from "./Context/ChatContext";
+import { FaSearch } from "react-icons/fa";
 
 const Search = () => {
   const { currentUser } = useAuth();
   const { dispatch } = useChatAuth();
   const [userNotFound, setUserNotFound] = useState(false);
-  const [, setUsers] = useState([]);
+  const [setUsers] = useState([]);
   const [name, setName] = useState("");
-  const [err, setError] = useState(false);
-
+  const [setError] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  // console.log("suggestions :", suggestions);
   const [chatHistory, setChatHistory] = useState([]);
-  console.log("chatHistory :", chatHistory);
+  const [userSelected, setUserSelected] = useState(false);
+  const { data } = useChatAuth();
 
   const handleSearch = async () => {
     if (!name.trim()) return;
@@ -125,6 +125,9 @@ const Search = () => {
     }
   };
 
+  const handleSelectUser = () => {
+    setUserSelected(!userSelected);
+  };
   //  previous chat users
   useEffect(() => {
     if (!currentUser?.uid) return;
@@ -189,17 +192,20 @@ const Search = () => {
 
   return (
     <div className="lg:ml-[20px] md:ml-[10px] ml-[10px] mt-[10px]">
-      <input
-        type="text"
-        className="w-[178px] h-[41px] border rounded-sm shadow-sm p-[5px]"
-        onChange={handleInputChange}
-        value={name}
-        onKeyDown={handleKey}
-        placeholder="Search name.."
-      />
+      <div className="flex">
+        <input
+          type="text"
+          className="xl:w-[220px] w-[178px] h-[41px] border rounded-sm shadow-sm p-[15px]"
+          onChange={handleInputChange}
+          value={name}
+          onKeyDown={handleKey}
+          placeholder="Search name.."
+        />
+        <FaSearch className="w-[20px] h-[20px] ml-[-30px] mt-[10px]" />
+      </div>
 
       {suggestions.length > 0 && (
-        <div className="mt-[8px]  ">
+        <div className="mt-[8px]">
           <p className="text-black text-[15px] mb-[5px]">Search Results:</p>
           {suggestions.map((user, index) => {
             return (
@@ -252,6 +258,9 @@ const Search = () => {
                 })
               : "Not available";
 
+            const selectUser = data?.user?.name;
+            console.log("selectUser :", selectUser);
+
             return (
               <div
                 key={chatId}
@@ -262,11 +271,20 @@ const Search = () => {
                   src={avtar}
                   alt="avatar"
                   className="w-[40px] h-[40px] rounded-full shadow-md"
+                  onClick={handleSelectUser}
                 />
+                {!userSelected ? (
+                  <div className="w-[11px] h-[8px] ml-[-17px] mt-[27px] rounded-full bg-green-400"></div>
+                ) : (
+                  <div
+                    className="w-[11px] h-[8px] ml-[-17px] mt-[27px] rounded-full "
+                    style={{ backgroundColor: "#dcf8c6" }}
+                  ></div>
+                )}
 
                 <div className="flex justify-between w-full items-start">
                   <div className="max-w-[70%]">
-                    <span className="text-[16px] font-bold block">
+                    <span className="xl:text-[16px] text-[14px] font-bold block">
                       {chat.userInfo?.name}
                     </span>
 
@@ -291,9 +309,10 @@ const Search = () => {
                     {/*  unread badge */}
                     {chat.unread > 0 && (
                       <span
-                        className="bg-blue-500
+                        className="
                        text-white w-[20px] h-[21px]
                         text-[12px] px-[7px] py-[2px] rounded-full"
+                        style={{ backgroundColor: "#25d366" }}
                       >
                         {chat.unread}
                       </span>

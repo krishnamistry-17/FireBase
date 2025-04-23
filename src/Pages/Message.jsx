@@ -3,7 +3,6 @@ import avatr from "../assets/images/avtar.png";
 import { useAuth } from "./Context/AuthContext";
 
 const Message = ({ message }) => {
-  // console.log("message>>>>> :", message);
   const { currentUser } = useAuth();
 
   const ref = useRef();
@@ -41,14 +40,15 @@ const Message = ({ message }) => {
   return (
     <div
       ref={ref}
-      className={`message flex gap-[18px] ${
+      className={`message  flex gap-[18px] ${
         isCurrentUser ? "flex-row-reverse" : "sender"
       }`}
     >
       <div>
         <div
           className="rounded-full 
-        md:w-[42px] md:h-[42px]
+        xl:w-[42px] xl:h-[42px]
+        md:w-[35px] md:h-[35px]
         sm:w-[30px] sm:h-[30px]
         w-[30px] h-[30px]
         mt-[5px]"
@@ -66,14 +66,14 @@ const Message = ({ message }) => {
       </div>
 
       <div
-        className="flex max-w-[100%] 
-       h-[25px] gap-[10px] flex-col"
+        className="flex md:max-w-[70%] max-w-[80%]
+       max-h-[10%] gap-[20px] flex-col"
       >
         <p
-          className="bg-white p-[10px] 
-          text-[14px] md:text-[16px]
+          className="bg-white p-[10px]
+          text-[14px] md:text-[14px] xl:text-[16px]
             rounded-r-[10px]
-            rounded-b-[10px] max-w-max"
+            rounded-b-[10px] max-w-max max-h-max"
         >
           {message.text}
         </p>

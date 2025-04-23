@@ -1,18 +1,23 @@
 import React from "react";
 import SideBar from "./SideBar";
 import Chat from "./Chat";
+import SideSideBar from "./SideSideBar";
 
 const MainChat = () => {
   return (
     <>
-      <div className="flex justify-center items-center mt-[50px] ">
+      <div className="flex justify-center items-center ">
         <div
-          className="border border-black rounded-sm 
-        xl:w-[65%] md:w-[90%] flex bg-blue-300 overflow-hidden
-          w-full lg:w-[65%] h-screen mx-[10px] overflow-y-auto
+          className="rounded-sm shadow-blue-300 shadow-lg ml-[0px] mt-[0px]
+        xl:w-full sm:w-full md:w-full flex  overflow-hidden
+          w-full h-screen  overflow-y-auto
          flex-col md:flex-row
         "
+          style={{ backgroundColor: "#ece5dd" }}
         >
+          <div className=" hidden md:block rounded-sm mr-[0px] ">
+            <SideSideBar />
+          </div>
           <SideBar />
           <Chat />
         </div>

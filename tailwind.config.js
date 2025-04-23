@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,8 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        transparent: "transparent",
-        current: "currentcolor",
+        green: {
+          dark: "#075e54",
+          lightdark: "	#128c7e",
+          lightgreen: "	#25d366",
+          neon: "	#dcf8c6",
+          bg: "#ece5dd",
+        },
         red: {
           dark: "#db1c07",
         },
@@ -91,13 +96,4 @@ export default {
     },
   },
   plugins: [],
-  module: {
-    rules: [
-      {
-        test: /\.svg$/,
-        use: ["@svgr/webpack"],
-      },
-      // other rules...
-    ],
-  },
 };

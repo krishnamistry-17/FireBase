@@ -4,7 +4,10 @@ import Search from "./Search";
 
 const SideBar = () => {
   return (
-    <div className="lg:flex-1  border-r-2 bg-blue-300 overflow-y-auto">
+    <div
+      className="lg:flex-1  border-r-2  overflow-y-auto "
+      style={{ backgroundColor: "#ece5dd" }}
+    >
       <Header />
       <div>
         <Search />
