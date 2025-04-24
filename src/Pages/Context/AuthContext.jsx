@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const cookies = new Cookies();
   const [isSignedIn, setIsSignedIn] = useState(!!cookies.get("new-token"));
+  console.log("isSignedIn :", isSignedIn);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {

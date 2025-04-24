@@ -3,7 +3,6 @@ import { FaImages } from "react-icons/fa";
 import { FaFile } from "react-icons/fa";
 import { useChatAuth } from "./Context/ChatContext";
 import { useAuth } from "./Context/AuthContext";
-// import { MdOutlineEmojiEmotions } from "react-icons/md";
 
 import {
   arrayUnion,
@@ -100,6 +99,18 @@ const Input = () => {
           [data.chatId + ".date"]: serverTimestamp(),
           [data.chatId + ".userInfo.emoji"]: serverTimestamp(),
         });
+        {
+          /*status */
+        }
+        await updateDoc(doc(db, "chatUsers", currentUser?.uid), {
+          [data.chatId + ".status"]: { isOnline: true },
+        });
+        await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
+          [data.chatId + ".status"]: { isOnline: true },
+        });
+        await updateDoc(doc(db, "chatUsers"), {
+          [data.chatId + ".status"]: { isOnline: false },
+        });
         setText("");
         setImage("");
       }
@@ -124,7 +135,6 @@ const Input = () => {
           onClick={() => setShowPicker(!showPicker)}
           className="w-[35px] h-[35px] mr-[8px]"
         >
-          {/* <MdOutlineEmojiEmotions /> */}
           😀
         </button>
       </div>

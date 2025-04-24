@@ -3,6 +3,7 @@ import { useAuth } from "./Context/AuthContext";
 import avtar from "../assets/images/avtar.png";
 import { signOut } from "firebase/auth";
 import { auth } from "../Config/firebase";
+import { ref } from "firebase/database";
 const Header = () => {
   const { currentUser } = useAuth();
 
@@ -13,6 +14,7 @@ const Header = () => {
       })
       .catch((error) => {
         console.error("Error signing out:", error);
+        cookies.remove("new-token");
       });
   };
 

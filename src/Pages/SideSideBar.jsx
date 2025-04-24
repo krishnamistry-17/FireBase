@@ -21,19 +21,22 @@ const SideSideBar = () => {
       {/*vertical and at end */}
       <div className=" absolute bottom-0 m-[5px]">
         <div className="block">
-          <MdPrivacyTip className="w-[30px] h-[30px]" />
+          <MdPrivacyTip className="xl:w-[30px] xl:h-[30px] md:w-[28px] md:h-[24px]" />
         </div>
         <div className="block mt-[22px]">
-          <FaUser className="w-[30px] h-[30px]" />
+          <FaUser className="xl:w-[30px] xl:h-[30px] md:w-[28px] md:h-[24px]" />
         </div>
         <div className="block mt-[22px]">
-          <BsChatSquareText className="w-[30px] h-[30px]" />
+          <BsChatSquareText className="xl:w-[30px] xl:h-[30px] md:w-[28px] md:h-[24px]" />
         </div>
         <div className="block mt-[22px]">
-          <IoIosNotifications className="w-[30px] h-[30px]" />
+          <IoIosNotifications className="xl:w-[30px] xl:h-[30px] md:w-[28px] md:h-[24px]" />
         </div>
         <div className="mt-[22px] ">
-          <IoIosSettings className="w-[30px] h-[30px]" onClick={handleSet} />
+          <IoIosSettings
+            className="xl:w-[30px] xl:h-[30px] md:w-[28px] md:h-[24px]"
+            onClick={handleSet}
+          />
         </div>
       </div>
     </div>

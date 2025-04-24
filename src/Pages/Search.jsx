@@ -1,5 +1,4 @@
 import {
-  collection,
   doc,
   getDoc,
   getDocs,
@@ -10,25 +9,57 @@ import {
   setDoc,
   updateDoc,
   where,
+  collection,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../Config/firebase";
 import { useAuth } from "./Context/AuthContext";
 import avtar from "../assets/images/avtar.png";
 import { useChatAuth } from "./Context/ChatContext";
 import { FaSearch } from "react-icons/fa";
+import { getAuth } from "firebase/auth";
+import { ref, set, onDisconnect, onValue } from "firebase/database";
+import { db, dbdata } from "../Config/firebase";
 
 const Search = () => {
   const { currentUser } = useAuth();
   const { dispatch } = useChatAuth();
+  const { data } = useChatAuth();
+  const auth = getAuth();
+  const { isSignedIn } = useAuth();
+
   const [userNotFound, setUserNotFound] = useState(false);
   const [setUsers] = useState([]);
   const [name, setName] = useState("");
   const [setError] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
-  const [userSelected, setUserSelected] = useState(false);
-  const { data } = useChatAuth();
+  console.log("chatHistory :", chatHistory);
+  const [status, setStatus] = useState("offline");
+
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const userId = currentUser.uid;
+    const userStatusRef = ref(dbdata, `chatUsers/${userId}`);
+
+    set(userStatusRef, { status: "online" });
+
+    const disconnectRef = onDisconnect(userStatusRef);
+    disconnectRef.set({ status: "offline" });
+
+    const unsubscribe = onValue(userStatusRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // console.log("data !!!!!:", data);
+        // setStatus(data.status || "offline");
+      }
+    });
+
+    return () => {
+      disconnectRef.cancel();
+      unsubscribe();
+    };
+  }, [currentUser, dbdata]);
 
   const handleSearch = async () => {
     if (!name.trim()) return;
@@ -106,6 +137,25 @@ const Search = () => {
         await updateDoc(doc(db, "chatUsers", selectedUser?.uid), {
           [`${combinedId}.lastseen`]: serverTimestamp(),
         });
+
+        //status for users
+
+        // Update status for both users when chat starts
+        await updateDoc(doc(db, "chatUsers", currentUser.uid), {
+          [`${combinedId}.status`]: { isOnline: true },
+        });
+
+        await updateDoc(doc(db, "chatUsers", selectedUser.uid), {
+          [`${combinedId}.status`]: { isOnline: true },
+        });
+
+        await updateDoc(doc(db, "chatUsers", currentUser?.uid), {
+          [`${combinedId}.status`]: { isOnline: false },
+        });
+
+        await updateDoc(doc(db, "chatUsers", selectedUser?.uid), {
+          [`${combinedId}.status`]: { isOnline: false },
+        });
       }
 
       //RESET UNREAD COUNT when chat is opened
@@ -125,9 +175,6 @@ const Search = () => {
     }
   };
 
-  const handleSelectUser = () => {
-    setUserSelected(!userSelected);
-  };
   //  previous chat users
   useEffect(() => {
     if (!currentUser?.uid) return;
@@ -258,9 +305,6 @@ const Search = () => {
                 })
               : "Not available";
 
-            const selectUser = data?.user?.name;
-            console.log("selectUser :", selectUser);
-
             return (
               <div
                 key={chatId}
@@ -271,15 +315,12 @@ const Search = () => {
                   src={avtar}
                   alt="avatar"
                   className="w-[40px] h-[40px] rounded-full shadow-md"
-                  onClick={handleSelectUser}
                 />
-                {!userSelected ? (
-                  <div className="w-[11px] h-[8px] ml-[-17px] mt-[27px] rounded-full bg-green-400"></div>
+
+                {chat?.userInfo?.status?.isOnline ? (
+                  <div className="w-[11px] h-[9px] ml-[-18px] mt-[33px] bg-green-500 rounded-full"></div>
                 ) : (
-                  <div
-                    className="w-[11px] h-[8px] ml-[-17px] mt-[27px] rounded-full "
-                    style={{ backgroundColor: "#dcf8c6" }}
-                  ></div>
+                  <div className="w-[11px] h-[9px] ml-[-18px] mt-[33px] bg-yellow-700 rounded-full"></div>
                 )}
 
                 <div className="flex justify-between w-full items-start">
