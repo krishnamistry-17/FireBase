@@ -1,25 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import SideBar from "./SideBar";
 import Chat from "./Chat";
 import SideSideBar from "./SideSideBar";
 
 const MainChat = () => {
+  const [showChat, setShowChat] = useState(false);
+
+  const handleUserClick = () => {
+    setShowChat(true);
+  };
+  const handleBackToSideBar = () => {
+    setShowChat(false);
+  };
+
   return (
     <>
-      <div className="flex justify-center items-center ">
-        <div
-          className="rounded-sm shadow-blue-300 shadow-lg ml-[0px] mt-[0px]
-        xl:w-full sm:w-full md:w-full flex  overflow-hidden
-          w-full h-screen  overflow-y-auto
-         flex-col md:flex-row
-        "
-          style={{ backgroundColor: "#ece5dd" }}
-        >
-          <div className=" hidden md:block rounded-sm mr-[0px] ">
-            <SideSideBar />
+      <div>
+        <div className=" md:block hidden ">
+          <div
+            className="flex h-screen w-full  rounded-sm shadow-blue-300 overflow-hidden
+          shadow-lg "
+            style={{ backgroundColor: "#ece5dd" }}
+          >
+            <SideSideBar className="hidden md:block rounded-sm mr-[0px] " />
+            <SideBar />
+            <Chat />
           </div>
-          <SideBar />
-          <Chat />
+        </div>
+        <div className="flex md:hidden">
+          {!showChat ? (
+            <SideBar onUserClick={handleUserClick} />
+          ) : (
+            <div style={{ backgroundColor: "#ece5dd" }}>
+              <Chat onBack={handleBackToSideBar} />
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -27,3 +42,6 @@ const MainChat = () => {
 };
 
 export default MainChat;
+{
+  /*windowscrollbottom,sendicon,para */
+}

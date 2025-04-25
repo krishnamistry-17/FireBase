@@ -5,6 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { IoIosNotifications } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+
 const SideSideBar = () => {
   const navigate = useNavigate();
   const handleSet = () => {
@@ -16,7 +17,7 @@ const SideSideBar = () => {
       className="
     
       border-black shadow-green-700
-      shadow-lg rounded-sm w-[50px] h-screen relative"
+      shadow-lg   xl:w-[50px] md:w-[40px] overflow-hidden h-screen relative"
     >
       {/*vertical and at end */}
       <div className=" absolute bottom-0 m-[5px]">

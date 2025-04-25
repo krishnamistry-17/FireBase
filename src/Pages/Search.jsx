@@ -238,11 +238,13 @@ const Search = () => {
   };
 
   return (
-    <div className="lg:ml-[20px] md:ml-[10px] ml-[10px] mt-[10px]">
-      <div className="flex">
+    <div className=" mt-[10px]">
+      <div className="flex mx-[10px]">
         <input
           type="text"
-          className="xl:w-[220px] w-[178px] h-[41px] border rounded-sm shadow-sm p-[15px]"
+          className="
+          w-full
+           h-[41px] border rounded-sm shadow-sm p-[15px]"
           onChange={handleInputChange}
           value={name}
           onKeyDown={handleKey}
@@ -286,7 +288,9 @@ const Search = () => {
       {/* Previous Chats */}
       {chatHistory?.length > 0 && (
         <div className="mt-[20px]">
-          <p className="text-gray-700 text-[14px] mb-[4px]">Recent Chats:</p>
+          <p className="text-gray-700 text-[14px] mb-[4px] pl-[15px]">
+            Recent Chats:
+          </p>
 
           {chatHistory.map(([chatId, chat]) => {
             const messageDate = chat?.date?.seconds

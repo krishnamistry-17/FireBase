@@ -1,11 +1,23 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import avatr from "../assets/images/avtar.png";
 import { useAuth } from "./Context/AuthContext";
 
 const Message = ({ message }) => {
   const { currentUser } = useAuth();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [showreadMore, setShowReadMore] = useState(false);
+
   const ref = useRef();
+  const refpara = useRef(null);
+
+  useEffect(() => {
+    if (refpara.current) {
+      const isOverflowing =
+        refpara.current.scrollHeight > refpara.current.clientHeight;
+      setShowReadMore(isOverflowing);
+    }
+  }, []);
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
@@ -46,14 +58,18 @@ const Message = ({ message }) => {
     >
       <div>
         <div
-          className="rounded-full 
+          className="
+        mt-[5px]"
+        >
+          <img
+            className="rounded-full 
         xl:w-[42px] xl:h-[42px]
         md:w-[35px] md:h-[35px]
         sm:w-[30px] sm:h-[30px]
-        w-[30px] h-[30px]
-        mt-[5px]"
-        >
-          <img src={avatr} alt="img" />
+        w-[30px] h-[30px]"
+            src={avatr}
+            alt="img"
+          />
         </div>
 
         {formattedTime && (
@@ -65,17 +81,27 @@ const Message = ({ message }) => {
         )}
       </div>
 
-      <div
-        className="flex md:max-w-[70%] max-w-[80%]
-       max-h-[10%] gap-[20px] flex-col"
-      >
+      <div className="flex md:max-w-[50%] max-w-[80%] max-h-[10%] gap-[20px] flex-col">
         <p
-          className="bg-white p-[10px]
-          text-[14px] md:text-[14px] xl:text-[16px]
-            rounded-r-[10px]
-            rounded-b-[10px] max-w-max max-h-max"
+          className={`
+      bg-white p-[10px] 
+      text-[14px] md:text-[14px] xl:text-[16px]
+      rounded-r-[10px] rounded-b-[10px] mb-[10px]
+      max-w-max max-h-max
+      ${!isOpen ? "line-clamp-2  overflow-hidden " : ""}
+    `}
+          ref={refpara}
         >
           {message.text}
+          {showreadMore && (
+            <a
+              className="text-blue-600 hover:underline w-fit block
+              mt-[-5px] xl:text-[15px] text-[13px] ml-[7px] mb-[10px]"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? "Read less" : "Read more"}
+            </a>
+          )}
         </p>
       </div>
     </div>
@@ -83,6 +109,3 @@ const Message = ({ message }) => {
 };
 
 export default Message;
-{
-  /*height:calc(100% - 160px) */
-}

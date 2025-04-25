@@ -3,7 +3,7 @@ import { FaImages } from "react-icons/fa";
 import { FaFile } from "react-icons/fa";
 import { useChatAuth } from "./Context/ChatContext";
 import { useAuth } from "./Context/AuthContext";
-
+import { IoSend } from "react-icons/io5";
 import {
   arrayUnion,
   doc,
@@ -129,11 +129,14 @@ const Input = () => {
   };
 
   return (
-    <div className="bg-white sticky h-[50px] mt-[10px] flex items-center px-2">
+    <div className="bg-white sticky bottom-0 h-[50px] mt-[10px] flex items-center px-2">
       <div>
         <button
           onClick={() => setShowPicker(!showPicker)}
-          className="w-[35px] h-[35px] mr-[8px]"
+          className="
+          sm:w-[35px] h-[35px]
+          w-[27px]
+          xl:mr-[8px] mr-[5px]"
         >
           😀
         </button>
@@ -160,12 +163,15 @@ const Input = () => {
         <FaImages />
         <FaFile />
         <button
-          className="w-[80px] h-[35px]  text-white rounded shadow-md shadow-green-700"
+          className="
+          xl:w-[40px] xl:h-[40px] xl:p-[13px]
+          w-[30px] h-[30px] p-[8px]
+          text-white rounded-full shadow-md shadow-green-700"
           style={{ backgroundColor: "#25d366" }}
           onClick={handleSend}
           type="submit"
         >
-          Send
+          <IoSend />
         </button>
       </div>
     </div>

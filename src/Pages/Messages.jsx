@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Message from "./Message";
 import { useChatAuth } from "./Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -7,6 +7,22 @@ import { db } from "../Config/firebase";
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const { data } = useChatAuth();
+
+  const [scrollToBottom, setScrollToBottom] = useState(true);
+
+  const chatEndRef = useRef(null);
+
+  const handleScroll = (e) => {
+    const isAtBottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    setScrollToBottom(isAtBottom);
+  };
+
+  useEffect(() => {
+    if (scrollToBottom) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (!data.chatId) return;
@@ -50,8 +66,25 @@ const Messages = () => {
 
   const groupedMessages = groupMessagesByDate(messages);
 
+  // const handleScroll = () => {
+  //   window.scrollTo(0, 0);
+  // };
+  {
+    /*<div
+  onScroll={handleScroll}
+  ref={chatContainerRef}
+  className="overflow-auto h-full"
+>
+  {messages.map((msg) => (
+    <MessageComponent key={msg.id} message={msg} />
+  ))}
+  <div ref={chatEndRef} />
+</div>
+ */
+  }
+
   return (
-    <div className="p-[10px] md:h-[calc(100%_-_111px)] overflow-y-scroll">
+    <div className="p-[10px] md:h-[calc(100%_-_111px)] h-screen overflow-y-scroll">
       {Object.entries(groupedMessages).map(([label, group]) => (
         <div key={label}>
           <div className="text-center text-gray-600 text-[14px] my-[12px]">

@@ -11,7 +11,8 @@ import { MdPrivacyTip } from "react-icons/md";
 import { BsChatSquareText } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-const Chat = () => {
+
+const Chat = ({ onBack }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { data } = useChatAuth();
@@ -26,14 +27,12 @@ const Chat = () => {
   const handleClick = () => {
     setMenuOpen(!menuOpen);
   };
-  const handleBack = () => {
-    navigate("/sidebar");
-  };
+
   return (
-    <div className="flex-2/4 ">
+    <div className="flex-2/4">
       <div
-        className="flex sticky  items-center justify-between shadow-sm shadow-green-700
-      h-[50px] p-[10px] "
+        className="flex sticky top-0 items-center justify-between shadow-sm shadow-green-700
+      h-[50px] p-[10px]"
         style={{ backgroundColor: "#128c7e" }}
       >
         {!data.user ? (
@@ -43,10 +42,10 @@ const Chat = () => {
         ) : (
           <>
             <div className="flex items-center">
-              <IoIosArrowBack
-                className="md:hidden w-[22px] h-[22px]"
-                onClick={handleBack}
-              />
+              <button onClick={onBack}>
+                <IoIosArrowBack className="md:hidden w-[22px] h-[22px]" />
+              </button>
+
               <img
                 src={avtar}
                 alt="img"
@@ -75,7 +74,10 @@ const Chat = () => {
       {menuOpen && (
         <div
           className="
-        absolute xl:top-[52px] md:top-[89px] top-[140px] xl:right-[3px] md:right-[1px] right-[2px]
+        absolute 
+        xl:top-[52px] 
+        md:top-[89px]
+        xl:right-[3px] md:right-[1px] right-[2px]
          bg-white shadow-lg
          w-[140px] p-[11px]
           rounded-md z-10 bg-white-light"
