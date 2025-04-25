@@ -4,7 +4,6 @@ import { useAuth } from "./Context/AuthContext";
 
 const Message = ({ message }) => {
   const { currentUser } = useAuth();
-
   const [isOpen, setIsOpen] = useState(false);
   const [showreadMore, setShowReadMore] = useState(false);
 
@@ -66,7 +65,7 @@ const Message = ({ message }) => {
         xl:w-[42px] xl:h-[42px]
         md:w-[35px] md:h-[35px]
         sm:w-[30px] sm:h-[30px]
-        w-[30px] h-[30px]"
+        w-[33px] h-[34px]"
             src={avatr}
             alt="img"
           />
@@ -81,22 +80,22 @@ const Message = ({ message }) => {
         )}
       </div>
 
-      <div className="flex md:max-w-[50%] max-w-[80%] max-h-[10%] gap-[20px] flex-col">
+      <div className="flex md:max-w-[50%] max-w-[80%]  gap-[20px] flex-col">
         <p
           className={`
       bg-white p-[10px] 
       text-[14px] md:text-[14px] xl:text-[16px]
       rounded-r-[10px] rounded-b-[10px] mb-[10px]
-      max-w-max max-h-max
-      ${!isOpen ? "line-clamp-2  overflow-hidden " : ""}
+      max-w-max
+      ${!isOpen ? "line-clamp-2 text-ellipsis overflow-hidden" : ""}
+      
     `}
           ref={refpara}
         >
           {message.text}
           {showreadMore && (
             <a
-              className="text-blue-600 hover:underline w-fit block
-              mt-[-5px] xl:text-[15px] text-[13px] ml-[7px] mb-[10px]"
+              className="text-blue-600 hover:underline  block"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "Read less" : "Read more"}

@@ -6,7 +6,6 @@ import { auth } from "../Config/firebase";
 
 const Header = () => {
   const { currentUser } = useAuth();
-
   const logout = () => {
     signOut(auth)
       .then(() => {
@@ -20,10 +19,10 @@ const Header = () => {
 
   return (
     <div
-      className="flex items-center justify-between sticky top-0"
+      className="flex items-center justify-between "
       style={{ backgroundColor: "#128c7e" }}
     >
-      <div className="flex sticky top-0 justify-center items-center ml-[10px] h-[50px]">
+      <div className="flex justify-center items-center ml-[10px] h-[50px]">
         <img
           src={avtar}
           className="mt-[5px] ml-[20px] 

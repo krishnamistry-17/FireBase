@@ -7,9 +7,9 @@ import { db } from "../Config/firebase";
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const { data } = useChatAuth();
-
   const [scrollToBottom, setScrollToBottom] = useState(true);
 
+  const scrollContainerRef = useRef(null);
   const chatEndRef = useRef(null);
 
   const handleScroll = (e) => {
@@ -38,7 +38,6 @@ const Messages = () => {
     return () => unSub();
   }, [data.chatId]);
 
-  // Group messages by date: Today, Yesterday, or full date
   const groupMessagesByDate = (msgs) => {
     const grouped = {};
     const today = new Date();
@@ -66,25 +65,12 @@ const Messages = () => {
 
   const groupedMessages = groupMessagesByDate(messages);
 
-  // const handleScroll = () => {
-  //   window.scrollTo(0, 0);
-  // };
-  {
-    /*<div
-  onScroll={handleScroll}
-  ref={chatContainerRef}
-  className="overflow-auto h-full"
->
-  {messages.map((msg) => (
-    <MessageComponent key={msg.id} message={msg} />
-  ))}
-  <div ref={chatEndRef} />
-</div>
- */
-  }
-
   return (
-    <div className="p-[10px] md:h-[calc(100%_-_111px)] h-screen overflow-y-scroll">
+    <div
+      className="p-[10px] md:h-[calc(100%_-_111px)] h-screen overflow-y-scroll"
+      onScroll={handleScroll}
+      ref={scrollContainerRef}
+    >
       {Object.entries(groupedMessages).map(([label, group]) => (
         <div key={label}>
           <div className="text-center text-gray-600 text-[14px] my-[12px]">
@@ -95,6 +81,8 @@ const Messages = () => {
           ))}
         </div>
       ))}
+
+      <div ref={chatEndRef} />
     </div>
   );
 };

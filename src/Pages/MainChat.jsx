@@ -9,6 +9,7 @@ const MainChat = () => {
   const handleUserClick = () => {
     setShowChat(true);
   };
+
   const handleBackToSideBar = () => {
     setShowChat(false);
   };
@@ -27,11 +28,11 @@ const MainChat = () => {
             <Chat />
           </div>
         </div>
-        <div className="flex md:hidden">
+        <div className="flex md:hidden w-full">
           {!showChat ? (
             <SideBar onUserClick={handleUserClick} />
           ) : (
-            <div style={{ backgroundColor: "#ece5dd" }}>
+            <div style={{ backgroundColor: "#ece5dd" }} className="w-full">
               <Chat onBack={handleBackToSideBar} />
             </div>
           )}
