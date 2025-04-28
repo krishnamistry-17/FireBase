@@ -59,6 +59,10 @@ const Signin = () => {
     }
   };
 
+  const handlePhone = () => {
+    navigate("/phone");
+  };
+
   return (
     <>
       <div className="flex justify-center items-center mt-[60px]">
@@ -165,6 +169,20 @@ const Signin = () => {
 
             <div className="md:ml-[65px] mb-[20px] rounded-lg">
               <img src={image} alt="gogglebtn" onClick={signInWithGoogle} />
+            </div>
+
+            <div>
+              <button
+                className="w-[226px] h-[45px]
+                py-[8px] px-[16px]
+                 md:ml-[47px] text-white
+             bg-blue-500 rounded-md mb-[20px]
+              hover:bg-blue-600 focus:outline-none  "
+                type="submit"
+                onClick={handlePhone}
+              >
+                Signin with Phone numebr
+              </button>
             </div>
           </div>
         </div>

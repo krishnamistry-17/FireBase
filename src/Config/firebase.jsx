@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { collection, getFirestore } from "firebase/firestore";
@@ -33,3 +34,8 @@ export const colRef = collection(db, "users");
 
 //status
 export const dbdata = getDatabase(app);
+
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider("6LdrEicrAAAAAF4lZqPN7ZT6E3BIIpLoDzNnm8wv"), // v3 site key from Firebase console
+  isTokenAutoRefreshEnabled: true, // Optional, keeps App Check token refreshed
+});

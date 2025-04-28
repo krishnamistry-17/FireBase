@@ -28,6 +28,7 @@ const MainChat = () => {
             <Chat />
           </div>
         </div>
+
         <div className="flex md:hidden w-full">
           {!showChat ? (
             <SideBar onUserClick={handleUserClick} />

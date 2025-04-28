@@ -10,6 +10,9 @@ import Setting from "./Pages/Setting";
 import SideBar from "./Pages/SideBar";
 import "./index.css";
 import { Navbar } from "@material-tailwind/react";
+import Phone from "./Pages/Phone";
+import Profile from "./Pages/Profile";
+import UserProfile from "./Pages/UserProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +26,9 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/setting" element={<Setting />} />
               <Route path="/sidebar" element={<SideBar />} />
+              <Route path="/phone" element={<Phone />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/userprofile" element={<UserProfile />} />
             </Routes>
           </SelectContextProvider>
         </ChatContextProvider>

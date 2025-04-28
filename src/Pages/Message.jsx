@@ -7,6 +7,15 @@ const Message = ({ message }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showreadMore, setShowReadMore] = useState(false);
 
+  const limit = 100;
+
+  const shouldTruncate = message.text.length > limit;
+
+  const visibleText =
+    isOpen || !shouldTruncate
+      ? message.text
+      : message.text.slice(0, limit) + "...";
+
   const ref = useRef();
   const refpara = useRef(null);
 
@@ -82,24 +91,24 @@ const Message = ({ message }) => {
 
       <div className="flex md:max-w-[50%] max-w-[80%]  gap-[20px] flex-col">
         <p
-          className={`
-      bg-white p-[10px] 
-      text-[14px] md:text-[14px] xl:text-[16px]
-      rounded-r-[10px] rounded-b-[10px] mb-[10px]
-      max-w-max
-      ${!isOpen ? "line-clamp-2 text-ellipsis overflow-hidden" : ""}
-      
-    `}
-          ref={refpara}
+          className="
+    bg-white p-[10px] 
+    text-[14px] md:text-[14px] xl:text-[16px]
+    rounded-r-[10px] rounded-b-[10px] mb-[10px]
+    max-w-max break-words
+  "
         >
-          {message.text}
-          {showreadMore && (
-            <a
-              className="text-blue-600 hover:underline  block"
+          {isOpen || message.text.length <= 100
+            ? message.text
+            : message.text.slice(0, 100) + "..."}
+
+          {message.text.length > 100 && (
+            <span
+              className="text-blue-600 hover:underline cursor-pointer ml-[4px]"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "Read less" : "Read more"}
-            </a>
+            </span>
           )}
         </p>
       </div>

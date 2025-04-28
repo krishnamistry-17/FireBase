@@ -24,8 +24,13 @@ const Chat = ({ onBack }) => {
         minute: "2-digit",
       })
     : "No last seen ";
+
   const handleClick = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleProfile = () => {
+    navigate("/profile");
   };
 
   return (
@@ -41,18 +46,22 @@ const Chat = ({ onBack }) => {
           </div>
         ) : (
           <>
-            <div className="flex items-center">
+            <div className="flex items-center ">
               <button onClick={onBack}>
-                <IoIosArrowBack className="md:hidden w-[22px] h-[22px]" />
+                <IoIosArrowBack className="md:hidden w-[22px] h-[22px] text-white" />
               </button>
 
               <img
+                onClick={handleProfile}
                 src={avtar}
                 alt="img"
                 className="w-[35px] h-[35px] rounded-full  "
               />
-              <div className="pl-[5px] flex flex-col leading-tight">
-                <p className="xl:text-[19px] md:text-[16px] text-[15px] font-bold">
+              <div
+                onClick={handleProfile}
+                className="pl-[5px] flex flex-col leading-tight"
+              >
+                <p className="xl:text-[19px] md:text-[16px] text-[15px] text-white font-bold">
                   {data.user?.name}
                 </p>
                 <span className="xl:text-[13px] text-[11px] font-semibold text-white">
@@ -62,9 +71,11 @@ const Chat = ({ onBack }) => {
             </div>
 
             <div className="flex p-[10px] space-x-3">
-              <MdVideoCall className="w-[20px] h-[20px]" />
-              <FaUser />
-              <button onClick={handleClick}>&#x2022;&#x2022;&#x2022;</button>
+              <MdVideoCall className="w-[20px] h-[20px] text-white" />
+              <FaUser className="text-white" />
+              <button className="text-white" onClick={handleClick}>
+                &#x2022;&#x2022;&#x2022;
+              </button>
             </div>
           </>
         )}
