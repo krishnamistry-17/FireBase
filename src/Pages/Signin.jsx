@@ -68,11 +68,11 @@ const Signin = () => {
       <div className="flex justify-center items-center mt-[60px]">
         <div
           className="bg-white  border border-gray-300
-   rounded-lg shadow-lg  w-[380px]"
+   rounded-lg shadow-lg  w-[380px] mx-[10px]"
         >
           <div className="px-[25px]">
             <h2
-              className="text-[25px] text-black 
+              className="md:text-[25px] text-[22px] text-black 
                 font-bold mb-[24px] text-center pt-[20px]"
             >
               Login to your Account
@@ -157,8 +157,8 @@ const Signin = () => {
               </div>
 
               <button
-                className="w-[180px] py-[8px] px-[16px]
-                 md:ml-[70px] mt-[20px] text-white
+                className="w-full py-[8px] px-[16px]
+                 mt-[20px] text-white
              bg-blue-500 rounded-md mb-[20px]
               hover:bg-blue-600 focus:outline-none  "
                 type="submit"
@@ -167,15 +167,20 @@ const Signin = () => {
               </button>
             </form>
 
-            <div className="md:ml-[65px] mb-[20px] rounded-lg">
-              <img src={image} alt="gogglebtn" onClick={signInWithGoogle} />
+            <div className=" mb-[20px] rounded-lg ">
+              <img
+                src={image}
+                alt="gogglebtn"
+                onClick={signInWithGoogle}
+                className="w-full h-[52px]"
+              />
             </div>
 
             <div>
               <button
-                className="w-[226px] h-[45px]
+                className="w-full h-[45px]
                 py-[8px] px-[16px]
-                 md:ml-[47px] text-white
+             text-white
              bg-blue-500 rounded-md mb-[20px]
               hover:bg-blue-600 focus:outline-none  "
                 type="submit"

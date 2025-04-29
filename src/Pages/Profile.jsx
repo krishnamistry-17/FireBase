@@ -26,7 +26,7 @@ const Profile = () => {
   return (
     <>
       <div
-        className="flex md:hidden sticky top-0 items-center justify-between shadow-sm shadow-green-700
+        className="flex sticky top-0 items-center justify-between shadow-sm shadow-green-700
           h-[50px] p-[10px]"
         style={{ backgroundColor: "#128c7e" }}
       >
@@ -38,7 +38,7 @@ const Profile = () => {
           <>
             <div className="flex items-center ">
               <button onClick={handleBack}>
-                <IoIosArrowBack className="md:hidden w-[22px] h-[22px] text-white" />
+                <IoIosArrowBack className=" w-[22px] h-[22px] text-white" />
               </button>
 
               <img

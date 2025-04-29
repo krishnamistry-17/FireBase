@@ -26,7 +26,7 @@ const Header = () => {
         <img
           src={avtar}
           className="mt-[5px] ml-[20px] 
-          xl:w-[35px] xl:h-[37px]
+          xl:w-[38px] xl:h-[38px]
           md:w-[30px] md:h-[30px]
           w-[33px] h-[33px]
           rounded-full"
@@ -34,7 +34,7 @@ const Header = () => {
         <div className="flex">
           <h2
             className=" pl-[10px] 
-          xl:text-[21px] md:text-[20px] text-[19px] xl:pt-[5px] md:pt-[7px] pt-[6px]"
+          xl:text-[21px] md:text-[20px] text-white text-[19px] xl:pt-[5px] md:pt-[7px] pt-[6px]"
           >
             {currentUser
               ? currentUser.displayName || currentUser.email

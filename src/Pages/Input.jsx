@@ -108,7 +108,7 @@ const Input = () => {
         await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
           [data.chatId + ".status"]: { isOnline: true },
         });
-        await updateDoc(doc(db, "chatUsers"), {
+        await updateDoc(doc(db, "chatUsers", data?.user?.uid), {
           [data.chatId + ".status"]: { isOnline: false },
         });
         setText("");
@@ -117,6 +117,7 @@ const Input = () => {
     } catch (err) {
       console.error("Error sending message:", err);
     }
+    setText("");
   };
 
   const handleKey = (e) => {

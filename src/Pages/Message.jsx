@@ -89,7 +89,7 @@ const Message = ({ message }) => {
         )}
       </div>
 
-      <div className="flex md:max-w-[50%] max-w-[80%]  gap-[20px] flex-col">
+      <div className="flex md:max-w-[50%] max-w-[73%]  gap-[20px] flex-col">
         <p
           className="
     bg-white p-[10px] 

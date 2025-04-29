@@ -26,7 +26,6 @@ const Messages = () => {
 
   useEffect(() => {
     if (!data.chatId) return;
-
     const unSub = onSnapshot(doc(db, "chats", data.chatId), (docSnap) => {
       if (docSnap.exists()) {
         setMessages(docSnap.data()?.messages || []);
@@ -47,19 +46,16 @@ const Messages = () => {
     msgs.forEach((msg) => {
       const date = new Date(msg.date?.seconds * 1000);
       let key = date.toDateString();
-
       if (date.toDateString() === today.toDateString()) {
         key = "Today";
       } else if (date.toDateString() === yesterday.toDateString()) {
         key = "Yesterday";
       }
-
       if (!grouped[key]) {
         grouped[key] = [];
       }
       grouped[key].push(msg);
     });
-
     return grouped;
   };
 

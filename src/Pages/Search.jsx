@@ -33,7 +33,7 @@ const Search = () => {
   const [setError] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
-  console.log("chatHistory :", chatHistory);
+  // console.log("chatHistory :", chatHistory);
   const [status, setStatus] = useState("offline");
 
   useEffect(() => {
@@ -63,7 +63,6 @@ const Search = () => {
 
   const handleSearch = async () => {
     if (!name.trim()) return;
-
     try {
       const q = query(collection(db, "newusers"), where("name", "==", name));
       const querySnapshot = await getDocs(q);
@@ -106,6 +105,7 @@ const Search = () => {
 
       if (!res.exists()) {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
+        console.log("messages :", messages);
 
         await updateDoc(doc(db, "chatUsers", currentUser.uid), {
           [combinedId + ".userInfo"]: {
@@ -137,7 +137,6 @@ const Search = () => {
         await updateDoc(doc(db, "chatUsers", selectedUser?.uid), {
           [`${combinedId}.lastseen`]: serverTimestamp(),
         });
-
         //status for users
 
         // Update status for both users when chat starts
@@ -175,7 +174,7 @@ const Search = () => {
     }
   };
 
-  //  previous chat users
+  //previous chat users
   useEffect(() => {
     if (!currentUser?.uid) return;
 
@@ -184,7 +183,7 @@ const Search = () => {
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
-          console.log("data---------> :", data);
+          // console.log("data---------> :", data);
           const sortedChats = Object.entries(data).sort((a, b) => {
             const dateA = a[1]?.date;
             const dateB = b[1]?.date;
@@ -201,7 +200,6 @@ const Search = () => {
             // If seconds are equal, compare nanoseconds
             return dateB.nanoseconds - dateA.nanoseconds;
           });
-
           setChatHistory(sortedChats);
         }
       }
@@ -238,17 +236,17 @@ const Search = () => {
   };
 
   return (
-    <div className=" mt-[10px]">
+    <div className="mt-[10px]">
       <div className="flex mx-[10px]">
         <input
           type="text"
           className="
           w-full
-           h-[41px] border rounded-sm shadow-sm p-[15px]"
+           h-[41px] border rounded-sm shadow-md p-[15px]"
           onChange={handleInputChange}
           value={name}
           onKeyDown={handleKey}
-          placeholder="Search name.."
+          placeholder="Search Name.."
         />
         <FaSearch className="w-[20px] h-[20px] ml-[-30px] mt-[10px]" />
       </div>
@@ -333,7 +331,7 @@ const Search = () => {
                       {chat.userInfo?.name}
                     </span>
 
-                    <p className="text-[14px] text-black truncate max-w-full">
+                    <p className="text-[14px] text-black truncate max-w-full w-[144px]">
                       {chat.lastMessage
                         ? `${
                             chat.lastMessage.senderId === currentUser.uid

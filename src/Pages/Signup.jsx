@@ -76,11 +76,11 @@ const SignUp = () => {
     <>
       <div className="flex justify-center items-center mt-[60px]">
         <div
-          className="bg-white  border border-gray-300
+          className="bg-white  border border-gray-300 mx-[10px]
      rounded-lg shadow-lg  w-[380px]"
         >
           <div className="px-[25px]">
-            <h2 className="text-[25px] text-black font-bold mb-[24px] text-center pt-[20px]">
+            <h2 className="md:text-[25px] text-[22px] text-black font-bold mb-[24px] text-center pt-[20px]">
               Register your Account
             </h2>
             <form onSubmit={formik.handleSubmit}>
@@ -188,7 +188,10 @@ const SignUp = () => {
                   />
                   <label htmlFor="terms" className="text-gray-700 text-[14px]">
                     I agree to the{" "}
-                    <a href="#" className="text-black hover:underline">
+                    <a
+                      href="#"
+                      className="text-black hover:underline text-[13px]"
+                    >
                       Terms and Conditions
                     </a>
                   </label>
@@ -208,7 +211,7 @@ const SignUp = () => {
               </div>
 
               <button
-                className="w-[150px] py-[8px] px-[16px] ml-[80px] text-white
+                className="w-full py-[8px] px-[16px]  text-white
                bg-blue-500 rounded-md mb-[20px] mt-[15px]
                 hover:bg-blue-600 focus:outline-none  "
                 type="submit"
